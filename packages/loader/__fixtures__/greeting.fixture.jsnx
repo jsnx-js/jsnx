@@ -1,0 +1,10 @@
+{
+  "components": [
+    {
+      "name": "h1",
+      "props": {
+        "children": "Hello, world!"
+      }
+    }
+  ]
+}

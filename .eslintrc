@@ -1,0 +1,92 @@
+{
+  "env": {
+      "browser": true,
+      "es6": true,
+      "node": true,
+      "jest": true
+  },
+  "extends": [
+    "airbnb",
+    "plugin:import/recommended",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended",
+    "plugin:sonarjs/recommended"
+  ],
+  "parser": "babel-eslint",
+   "parserOptions": {
+    "allowImportExportEverywhere": true,
+      "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "settings": {
+    "import/resolver": {
+      "alias": [
+        ["@jsnx-js/jsnx", ["./packages/jsnx"]],
+        ["@jsnx-js/loader", ["./packages/loader"]],
+        ["@jsnx-js/with-jsnx", ["./packages/with-jsnx"]]
+      ],
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx", ".json"]
+      }
+    }
+  },
+   "plugins": [
+      "react", "sonarjs"
+  ],
+  "globals": {
+    "stewie": true
+  },
+  "rules": {
+    "import/prefer-default-export": "off",
+    "strict": 0,
+    "react/no-children-prop": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-props-no-spreading": "off",
+    "switch-colon-spacing": [
+      2,
+      {
+        "after": false,
+        "before": false
+      }
+    ],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "import/no-unresolved": [
+      2,
+      {
+        "commonjs": true,
+        "amd": true
+      }
+    ],
+    "import/no-extraneous-dependencies": [
+      "warn",
+      {
+        "devDependencies": true,
+        "optionalDependencies": true,
+        "peerDependencies": true
+      }
+    ],
+    "react/jsx-indent": ["error", 2],
+    "react/prop-types": ["error"],
+    "prettier/prettier": ["error"],
+    "no-console": [
+      "error",
+      {
+        "allow": ["error"]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "*.test.js"
+      ],
+      "rules": {
+        "sonarjs/no-duplicate-string": "off",
+        "sonarjs/no-identical-functions": "off"
+      }
+    }
+  ]
+}
