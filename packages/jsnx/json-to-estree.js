@@ -1,31 +1,42 @@
 const estreeToJs = require('./estree-to-js');
 
+function createJSONImport(specifiers, path) {
+  return {
+    type: 'ImportDeclaration',
+    specifiers,
+    source: {
+      type: 'Literal',
+      value: path,
+      raw: JSON.stringify(path),
+    },
+    importKind: 'value',
+  };
+}
+
 function createJSONImports(imports, options) {
   if (imports.length) {
-    return {
-      type: 'ImportDeclaration',
-      specifiers: [
-        imports.map(name => ({
-          type: 'ImportSpecifier',
-          imported: {
-            type: 'Identifier',
-            name,
-          },
-          local: {
-            type: 'Identifier',
-            name,
-          },
-        })),
-      ],
-      source: {
-        type: 'Literal',
-        value: '@components',
-        raw: JSON.stringify(options.componentsPath || '@components'),
-      },
-    };
+    return imports.map(({ name, imported, from, asName }) => {
+      if (imported === 'default') {
+        const path = from || `${options.componentsPath}/${name}`;
+        const defaultSpecifier = {
+          type: 'ImportDefaultSpecifier',
+          local: { type: 'Identifier', optional: false, name },
+        };
+
+        return createJSONImport([defaultSpecifier], path);
+      }
+
+      const specifier = {
+        type: 'ImportSpecifier',
+        imported: { type: 'Identifier', optional: false, name },
+        local: { type: 'Identifier', optional: false, name: asName || name },
+      };
+
+      return createJSONImport([specifier], options.componentsPath);
+    });
   }
 
-  return null;
+  return [];
 }
 
 function createJSONProgram() {
@@ -35,7 +46,9 @@ function createJSONProgram() {
   };
 }
 
-function createJSONComponent(component) {
+function createJSONComponent(component, hasChildren) {
+  if (!component) return null;
+
   if (typeof component === 'string') {
     return {
       type: 'JSXText',
@@ -44,29 +57,46 @@ function createJSONComponent(component) {
     };
   }
 
+  const { children, ...props } = component?.props || {};
+  const attributes = Object.keys(props).map(name => ({
+    type: 'JSXAttribute',
+    name: { type: 'JSXIdentifier', name },
+    value: {
+      type: 'Literal',
+      value: props[name],
+      raw: JSON.stringify(props[name]),
+    },
+  }));
+
   return {
     type: 'JSXElement',
     openingElement: {
       type: 'JSXOpeningElement',
       name: {
         type: 'JSXIdentifier',
-        name: component.name,
+        name: component?.asName || component.name,
       },
-      attributes: [],
-      selfClosing: !component.props.children,
+      attributes: [
+        {
+          type: 'JSXSpreadAttribute',
+          argument: { type: 'Identifier', name: 'props' },
+        },
+        ...attributes,
+      ],
+      selfClosing: !hasChildren,
     },
-    ...(component.props.children && {
+    ...(hasChildren && {
       closingElement: {
         type: 'JSXClosingElement',
         name: {
           type: 'JSXIdentifier',
-          name: component.name,
+          name: component?.asName || component.name,
         },
       },
     }),
-    children: Array.isArray(component.props.children)
-      ? component.props.children.map(child => createJSONComponent(child))
-      : [createJSONComponent(component.props.children)],
+    children: Array.isArray(children)
+      ? children.map(child => createJSONComponent(child, child?.props?.children))
+      : [createJSONComponent(children)],
   };
 }
 
@@ -108,24 +138,37 @@ function serializeEstree(estree) {
   return estreeToJs(estree);
 }
 
+function getImports(components) {
+  return components.reduce((memo, component) => {
+    if (
+      component?.imported &&
+      !memo.find(({ name }) => name === component.name && name === component.asName)
+    ) {
+      memo.push(component);
+    }
+
+    if (Array.isArray(component?.props?.children)) {
+      memo.push(...getImports(component.props.children));
+    }
+
+    return memo;
+  }, []);
+}
+
 function compile(options = {}) {
   function parse(tree) {
     const { components } = JSON.parse(tree);
-    const imports = [];
+    const imports = getImports(components);
 
     const JSONComponents = components.map(component => {
-      if (component.imported) {
-        imports.push(component);
-      }
-
-      return createJSONComponent(component);
+      return createJSONComponent(component, !!component?.props?.children);
     });
 
     const estree = createJSONProgram();
 
     estree.body = [
       ...estree.body,
-      createJSONImports(imports, options),
+      ...createJSONImports(imports, options),
       createJSONContent(JSONComponents),
       !options.skipExport
         ? {
