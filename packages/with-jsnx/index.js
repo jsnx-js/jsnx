@@ -1,11 +1,8 @@
 const path = require('path');
 
-module.exports = (pluginOptions = {}) => (nextConfig = {}) => {
-  const { componentsPath = '@components', skipExport = false } =
-    pluginOptions.options || {};
-
-  // eslint-disable-next-line prefer-object-spread
-  return Object.assign({}, nextConfig, {
+module.exports = (nextConfig = {}) => {
+  return {
+    ...nextConfig,
     webpack(config, options) {
       if (!options.defaultLoaders) {
         throw new Error(
@@ -17,8 +14,7 @@ module.exports = (pluginOptions = {}) => (nextConfig = {}) => {
       options.defaultLoaders.jsnx = {
         loader: path.resolve(__dirname, '../loader'),
         options: {
-          componentsPath,
-          skipExport,
+          skipExport: false,
         },
       };
 
@@ -33,5 +29,5 @@ module.exports = (pluginOptions = {}) => (nextConfig = {}) => {
 
       return config;
     },
-  });
+  };
 };

@@ -1,8 +1,4 @@
-const withJSNX = require('../../packages/with-jsnx')({
-  options: {
-    componentsPath: '@material-ui/core',
-  },
-});
+const withJSNX = require('../../packages/with-jsnx');
 
 module.exports = withJSNX({
   pageExtensions: ['js', 'jsx', 'jsnx'],
