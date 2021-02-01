@@ -15,21 +15,21 @@ function createJSONImport(specifiers, path) {
 
 function createJSONImports(imports, options) {
   if (imports.length) {
-    return imports.map(({ name, imported, from, asName }) => {
-      if (imported === 'default') {
-        const path = from || `${options.componentsPath}/${name}`;
+    return imports.map(({ name, exception }) => {
+      const { source, rename } = exception;
+      if (source) {
         const defaultSpecifier = {
           type: 'ImportDefaultSpecifier',
           local: { type: 'Identifier', optional: false, name },
         };
 
-        return createJSONImport([defaultSpecifier], path);
+        return createJSONImport([defaultSpecifier], source);
       }
 
       const specifier = {
         type: 'ImportSpecifier',
         imported: { type: 'Identifier', optional: false, name },
-        local: { type: 'Identifier', optional: false, name: asName || name },
+        local: { type: 'Identifier', optional: false, name: rename || name },
       };
 
       return createJSONImport([specifier], options.componentsPath);
@@ -58,6 +58,7 @@ function createJSONComponent(component, hasChildren) {
   }
 
   const { children, ...props } = component?.props || {};
+  const { rename } = component?.exception || {};
   const attributes = Object.keys(props).map(name => ({
     type: 'JSXAttribute',
     name: { type: 'JSXIdentifier', name },
@@ -74,7 +75,7 @@ function createJSONComponent(component, hasChildren) {
       type: 'JSXOpeningElement',
       name: {
         type: 'JSXIdentifier',
-        name: component?.asName || component.name,
+        name: rename || component.name,
       },
       attributes: [
         {
@@ -90,7 +91,7 @@ function createJSONComponent(component, hasChildren) {
         type: 'JSXClosingElement',
         name: {
           type: 'JSXIdentifier',
-          name: component?.asName || component.name,
+          name: rename || component.name,
         },
       },
     }),
@@ -141,8 +142,10 @@ function serializeEstree(estree) {
 function getImports(components) {
   return components.reduce((memo, component) => {
     if (
-      component?.imported &&
-      !memo.find(({ name }) => name === component.name && name === component.asName)
+      (component?.exception?.type === 'module' || component?.exception?.source) &&
+      !memo.find(
+        ({ name }) => name === component.name && name === component?.exception?.rename
+      )
     ) {
       memo.push(component);
     }

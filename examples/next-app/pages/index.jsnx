@@ -2,19 +2,23 @@
   "components": [
     {
       "name": "LinearProgress",
-      "imported": true
+      "exception": {
+        "type": "module"
+      }
     },
     {
       "name": "Breadcrumbs",
-      "imported": "default",
-      "from": "@material-ui/core/Breadcrumbs",
+      "exception": {
+        "source": "@material-ui/core/Breadcrumbs"
+      },
       "props": {
         "aria-label": "breadcrumb",
         "children": [
           {
             "name": "Link",
-            "imported": "default",
-            "from": "next/link",
+            "exception": {
+              "source": "next/link"
+            },
             "props": {
               "href": "/",
               "children": "Material-UI"
@@ -22,8 +26,10 @@
           },
           {
             "name": "Link",
-            "imported": true,
-            "asName": "MaterialLink",
+            "exception": {
+              "type": "module",
+              "rename": "MaterialLink"
+            },
             "props": {
               "href": "/getting-started/installation/",
               "children": "Core"
@@ -31,7 +37,9 @@
           },
           {
             "name": "Typography",
-            "imported": "default",
+            "exception": {
+              "type": "module"
+            },
             "props": {
               "color": "textPrimary",
               "children": "Breadcrumb"
