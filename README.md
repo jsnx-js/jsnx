@@ -12,7 +12,7 @@ Parse json structure file to react component.
 Here is a quick example to get you started, **it's all you need**:
 
 ```javascript
-const withJSNX = require('@jsnx-js/with-jsnx')();
+const withJSNX = require('@jsnx-js/with-jsnx');
 
 module.exports = withJSNX({
   pageExtensions: ['js', 'jsx', 'jsnx'],
@@ -21,15 +21,10 @@ module.exports = withJSNX({
 Here is a quick example with **options**:
 
 ```javascript
-const withJSNX = require('@jsnx-js/with-jsnx')({
-  options: {
-    componentsPath: '@material-ui/core',
-  }
-});
-
-module.exports = withJSNX({
-  pageExtensions: ['js', 'jsx', 'jsnx'],
-});
+// jsnx.config.js
+module.exports = {
+  componentsPath: '@material-ui/core',
+};
 ```
 
 **File**: will returns a [React](https://reactjs.org/) functional component:
