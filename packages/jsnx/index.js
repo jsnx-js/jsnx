@@ -3,7 +3,7 @@ const jsonToEstree = require('./json-to-estree');
 
 const pragma = `/* @jsxRuntime classic */`;
 
-function createCompiler(options = {}) {
+function createCompiler(options) {
   return unified().use(jsonToEstree, options);
 }
 
