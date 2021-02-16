@@ -1,5 +1,3 @@
-const path = require('path');
-
 module.exports = (nextConfig = {}) => {
   return {
     ...nextConfig,
@@ -12,7 +10,7 @@ module.exports = (nextConfig = {}) => {
 
       // eslint-disable-next-line no-param-reassign
       options.defaultLoaders.jsnx = {
-        loader: path.resolve(__dirname, '../loader'),
+        loader: '@jsnx-js/loader',
         options: {
           skipExport: false,
         },
@@ -22,6 +20,8 @@ module.exports = (nextConfig = {}) => {
         test: /\.jsnx$/,
         use: [options.defaultLoaders.babel, options.defaultLoaders.jsnx],
       });
+
+      config.resolve.extensions.push('.jsnx');
 
       if (typeof nextConfig.webpack === 'function') {
         return nextConfig.webpack(config, options);

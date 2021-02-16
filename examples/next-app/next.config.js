@@ -1,4 +1,4 @@
-const withJSNX = require('../../packages/with-jsnx');
+const withJSNX = require('@jsnx-js/nextjs');
 
 module.exports = withJSNX({
   pageExtensions: ['js', 'jsx', 'jsnx'],

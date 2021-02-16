@@ -1,9 +1,9 @@
 {
   "env": {
-      "browser": true,
-      "es6": true,
-      "node": true,
-      "jest": true
+    "browser": true,
+    "es6": true,
+    "node": true,
+    "jest": true
   },
   "extends": [
     "airbnb",
@@ -13,9 +13,9 @@
     "plugin:sonarjs/recommended"
   ],
   "parser": "babel-eslint",
-   "parserOptions": {
+  "parserOptions": {
     "allowImportExportEverywhere": true,
-      "ecmaFeatures": {
+    "ecmaFeatures": {
       "jsx": true
     },
     "ecmaVersion": 2018,
@@ -26,19 +26,19 @@
       "alias": [
         ["@jsnx-js/jsnx", ["./packages/jsnx"]],
         ["@jsnx-js/loader", ["./packages/loader"]],
-        ["@jsnx-js/with-jsnx", ["./packages/with-jsnx"]]
+        ["@jsnx-js/nextjs", ["./packages/nextjs"]]
       ],
       "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx", ".json"]
+        "extensions": [".js", ".jsx", ".jsnx"]
+      },
+      "json": {
+        "extensions": [".jsnx"]
       }
     }
   },
    "plugins": [
       "react", "sonarjs"
   ],
-  "globals": {
-    "stewie": true
-  },
   "rules": {
     "import/prefer-default-export": "off",
     "strict": 0,
@@ -58,6 +58,12 @@
       {
         "commonjs": true,
         "amd": true
+      }
+    ],
+    "import/extensions": [
+      "error",
+      {
+        "jsnx": "never"
       }
     ],
     "import/no-extraneous-dependencies": [

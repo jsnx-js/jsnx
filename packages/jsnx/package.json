@@ -1,8 +1,11 @@
 {
   "name": "@jsnx-js/jsnx",
-  "version": "0.0.1",
-  "main": "index.js",
+  "version": "0.0.2",
+  "main": "build/index.js",
   "license": "MIT",
+  "scripts": {
+    "build": "NODE_ENV=production BABEL_ENV=esm babel ./ --out-dir ./build --ignore **/__tests__/**,**/__fixtures__/**,**/__node_modules__/**"
+  },
   "dependencies": {
     "astring": "^1.6.0",
     "unified": "^9.2.0"

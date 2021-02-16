@@ -1,4 +1,4 @@
-const estreeToJs = require('./estree-to-js');
+import estreeToJs from './estree-to-js';
 
 function createJSONImport(specifiers, path) {
   return {
@@ -198,5 +198,4 @@ function compile(options = {}) {
   this.Parser = parse;
 }
 
-module.exports = compile;
-compile.default = compile;
+export default compile;

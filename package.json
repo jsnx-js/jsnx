@@ -1,6 +1,6 @@
 {
-  "name": "@jsnx-js/jsnx",
-  "version": "0.1.0",
+  "name": "root",
+  "version": "0.0.1",
   "private": true,
   "workspaces": [
     "packages/*",
@@ -8,8 +8,8 @@
   ],
   "scripts": {
     "postinstall": "yarn bootstrap",
-    "build": "lerna exec --parallel --no-bail -- npm run build",
-    "build:watch": "lerna exec --stream --no-bail --parallel -- npm run build:watch",
+    "build": "lerna exec --ignore @jsnx-js/nextjs --parallel --no-bail -- npm run build",
+    "build:watch": "lerna exec --ignore @jsnx-js/nextjs --stream --no-bail --parallel -- npm run build:watch",
     "dev": "cd examples/next-app && yarn dev",
     "start": "cd examples/next-app && yarn start -p $PORT",
     "lint": "eslint ./packages",
@@ -32,6 +32,7 @@
     "@testing-library/react-hooks": "^5.0.0",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
+    "babel-plugin-module-resolver": "^4.1.0",
     "eslint": "^7.18.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^7.2.0",

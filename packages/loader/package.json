@@ -1,9 +1,13 @@
 {
   "name": "@jsnx-js/loader",
-  "version": "0.0.1",
-  "main": "index.js",
+  "version": "0.0.2",
+  "main": "build/index.js",
   "license": "MIT",
+  "scripts": {
+    "build": "NODE_ENV=production BABEL_ENV=esm babel ./ --out-dir ./build --ignore **/__tests__/**,**/__fixtures__/**,**/__node_modules__/**"
+  },
   "dependencies": {
+    "@jsnx-js/jsnx": "^0.0.2",
     "loader-utils": "^2.0.0"
   },
   "devDependencies": {

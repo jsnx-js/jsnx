@@ -1,5 +1,5 @@
 /* eslint-disable no-plusplus */
-const { baseGenerator, generate } = require('astring');
+import { baseGenerator, generate } from 'astring';
 
 // `attr="something"`
 function JSXAttribute(node, state) {
@@ -146,4 +146,4 @@ function estreeToJs(estree) {
   return generate(estree, { generator: customGenerator });
 }
 
-module.exports = estreeToJs;
+export default estreeToJs;

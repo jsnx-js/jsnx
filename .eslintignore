@@ -1,0 +1,15 @@
+.log
+.DS_Store
+.jest-*
+lib
+node_modules
+build
+examples/*/.next
+lerna-debug.log
+
+**/yarn-error.log
+**/.env
+**/.out
+**/.storybook-static
+**/.next
+**/mock/data

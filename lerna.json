@@ -5,10 +5,12 @@
   ],
   "npmClient": "yarn",
   "useWorkspaces": true,
-  "version": "independent",
+  "version": "0.0.1",
   "command": {
     "version": {
-      "message": "chore(release): publish"
+      "message": "chore(release): publish %s",
+      "allowBranch": "main",
+      "ignoreChanges": ["**/__fixtures__/**", "**/__tests__/**", "**/*.md"]
     }
   }
 }

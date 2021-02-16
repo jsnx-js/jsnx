@@ -1,6 +1,6 @@
-const fs = require('fs');
-const { getOptions } = require('loader-utils');
-const jsnx = require('../jsnx');
+import { existsSync } from 'fs';
+import { getOptions } from 'loader-utils';
+import jsnx from '@jsnx-js/jsnx';
 
 const CONFIG_FILE_NAME = 'jsnx.config.js';
 const DEFAULT_RENDERER = `import React from 'react';`;
@@ -8,7 +8,7 @@ const DEFAULT_RENDERER = `import React from 'react';`;
 async function getConfig() {
   let path = `${process.cwd()}/${CONFIG_FILE_NAME}`;
 
-  if (!fs.existsSync(path)) {
+  if (!existsSync(path)) {
     path = `${__dirname}/${CONFIG_FILE_NAME}`;
   }
 
@@ -40,4 +40,4 @@ async function loader(content) {
   return callback(null, code);
 }
 
-module.exports = loader;
+export default loader;

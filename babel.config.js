@@ -1,13 +1,15 @@
 module.exports = {
-  presets: [
+  babelrcRoots: ['./packages/*', './examples/*'],
+  plugins: [
     [
-      '@babel/env',
+      'module-resolver',
       {
-        targets: {
-          node: 'current',
+        alias: {
+          '@jsnx-js/jsnx': './packages/jsnx',
+          '@jsnx-js/loader': './packages/loader',
+          '@jsnx-js/nextjs': './packages/nextjs',
         },
       },
     ],
-    '@babel/react',
   ],
 };

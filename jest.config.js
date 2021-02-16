@@ -1,13 +1,14 @@
 module.exports = {
+  collectCoverage: true,
+  projects: ['./packages/*', './examples/*'],
   cacheDirectory: '.jest-cache',
   coverageDirectory: '.jest-coverage',
-  testPathIgnorePatterns: ['/node_modules/', '/.next/', '/build/', '/build-esm/'],
+  testPathIgnorePatterns: ['/node_modules/', '/.next/', '/build/'],
   coverageReporters: ['html', 'lcov', 'text-summary'],
-  collectCoverage: true,
-  coveragePathIgnorePatterns: ['./node_modules/', './build/', '/build-esm/'],
+  coveragePathIgnorePatterns: ['./node_modules/', './build/'],
   moduleDirectories: ['node_modules', '<rootDir>'],
   moduleNameMapper: {
-    '^~/(.*)$': '<rootDir>/src/$1',
+    '^@jsnx-js/(.*)$': '<rootDir>/pacakges/$1/src',
   },
   coverageThreshold: {
     global: {
