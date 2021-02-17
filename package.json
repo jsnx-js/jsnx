@@ -7,15 +7,13 @@
     "examples/*"
   ],
   "scripts": {
-    "postinstall": "yarn bootstrap",
-    "build": "lerna exec --ignore @jsnx-js/nextjs --parallel --no-bail -- npm run build",
-    "build:watch": "lerna exec --ignore @jsnx-js/nextjs --stream --no-bail --parallel -- npm run build:watch",
-    "dev": "cd examples/next-app && yarn dev",
-    "start": "cd examples/next-app && yarn start -p $PORT",
-    "lint": "eslint ./packages",
-    "bootstrap": "lerna bootstrap --use-workspaces",
     "test": "jest",
-    "clean": "lerna exec --parallel -- rimraf ./build ./.next node_modules"
+    "lint": "eslint ./packages",
+    "build": "lerna exec --ignore @jsnx-js/nextjs --parallel --no-bail -- npm run build",
+    "clean": "lerna exec --parallel -- rimraf build .next node_modules",
+    "postinstall": "lerna bootstrap",
+    "dev:next-app": "cd examples/next-app && yarn dev",
+    "start:next-app": "cd examples/next-app && yarn start -p $PORT"
   },
   "dependencies": {},
   "devDependencies": {
