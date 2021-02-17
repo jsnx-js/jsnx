@@ -99,8 +99,9 @@ function JSXMemberExpression(node, state) {
 }
 
 // `ns:attr="something"`
-/* istanbul ignore next - MDX (and most JSX things) don’t support them.
- * But keep it here just in case we might in the future. */
+/* istanbul ignore next - JSNX (and most JSX things) don’t support them.
+ * But keep it here just in case we might in the future.
+ */
 function JSXNamespacedName(node, state) {
   this[node.namespace.type](node.namespace, state);
   state.write(':');
@@ -119,7 +120,8 @@ function JSXSpreadAttribute(node, state) {
 function JSXText(node, state) {
   /* istanbul ignore next - `raw` is currently always be set, but could be
    * missing if something injects a `JSXText` into the tree.
-   * Preferring `raw` over `value` means character references are kept as-is. */
+   * Preferring `raw` over `value` means character references are kept as-is.
+   */
   const value = node.raw || node.value;
   state.write(value);
 }

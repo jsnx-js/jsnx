@@ -4,7 +4,8 @@ import jsonToEstree from './json-to-estree';
 const pragma = `/* @jsxRuntime classic */`;
 
 export function createCompiler(options) {
-  return unified().use(jsonToEstree, options);
+  const { plugins, ...opts } = options;
+  return unified().use(jsonToEstree, opts).use({ plugins });
 }
 
 function createConfig(json, options) {
