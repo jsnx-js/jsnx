@@ -1,14 +1,13 @@
 {
+  "name": "Header",
   "components": [
     {
       "name": "LinearProgress",
-      "exception": {
-        "type": "module"
-      }
+      "type": "module"
     },
     {
       "name": "Breadcrumbs",
-      "exception": {
+      "custom": {
         "source": "@material-ui/core/Breadcrumbs"
       },
       "props": {
@@ -16,8 +15,9 @@
         "children": [
           {
             "name": "Link",
-            "exception": {
-              "source": "next/link"
+            "custom": {
+              "source": "next/link",
+              "name": "NextLink"
             },
             "props": {
               "href": "/",
@@ -26,10 +26,7 @@
           },
           {
             "name": "Link",
-            "exception": {
-              "type": "module",
-              "rename": "MaterialLink"
-            },
+            "type": "module",
             "props": {
               "href": "/getting-started/installation/",
               "children": "Core"
@@ -37,9 +34,7 @@
           },
           {
             "name": "Typography",
-            "exception": {
-              "type": "module"
-            },
+            "type": "module",
             "props": {
               "color": "textPrimary",
               "children": "Breadcrumb"

@@ -15,16 +15,8 @@ function createJSONImport(specifiers, path) {
 
 function createJSONImports(imports, options) {
   if (imports.length) {
-    return imports.map(({ name, exception }) => {
-      const { source, rename } = exception;
-      if (source) {
-        const defaultSpecifier = {
-          type: 'ImportDefaultSpecifier',
-          local: { type: 'Identifier', optional: false, name },
-        };
-
-        return createJSONImport([defaultSpecifier], source);
-      }
+    return imports.map(({ name, custom }) => {
+      const { source, name: rename } = custom || {};
 
       const specifier = {
         type: 'ImportSpecifier',
@@ -32,7 +24,11 @@ function createJSONImports(imports, options) {
         local: { type: 'Identifier', optional: false, name: rename || name },
       };
 
-      return createJSONImport([specifier], options.componentsPath);
+      if (source) {
+        specifier.type = 'ImportDefaultSpecifier';
+      }
+
+      return createJSONImport([specifier], source || options.componentsPath);
     });
   }
 
@@ -58,7 +54,7 @@ function createJSONComponent(component, hasChildren) {
   }
 
   const { children, ...props } = component?.props || {};
-  const { rename } = component?.exception || {};
+  const { name: rename } = component?.custom || {};
   const attributes = Object.keys(props).map(name => ({
     type: 'JSXAttribute',
     name: { type: 'JSXIdentifier', name },
@@ -101,10 +97,10 @@ function createJSONComponent(component, hasChildren) {
   };
 }
 
-function createJSONContent(children) {
+function createJSONContent(children, name) {
   return {
     type: 'FunctionDeclaration',
-    id: { type: 'Identifier', name: 'JSNXContent', optional: false },
+    id: { type: 'Identifier', name, optional: false },
     expression: false,
     generator: false,
     async: false,
@@ -142,9 +138,9 @@ function serializeEstree(estree) {
 function getImports(components) {
   return components.reduce((memo, component) => {
     if (
-      (component?.exception?.type === 'module' || component?.exception?.source) &&
+      (component?.type === 'module' || component?.custom?.source) &&
       !memo.find(
-        ({ name }) => name === component.name && name === component?.exception?.rename
+        ({ name }) => name === component.name && name === component?.custom?.name
       )
     ) {
       memo.push(component);
@@ -160,7 +156,7 @@ function getImports(components) {
 
 function compile(options = {}) {
   function parse(tree) {
-    const { components } = JSON.parse(tree);
+    const { components, name = 'JSNXContent' } = JSON.parse(tree);
     const imports = getImports(components);
 
     const JSONComponents = components.map(component => {
@@ -172,13 +168,13 @@ function compile(options = {}) {
     estree.body = [
       ...estree.body,
       ...createJSONImports(imports, options),
-      createJSONContent(JSONComponents),
+      createJSONContent(JSONComponents, name),
       !options.skipExport
         ? {
             type: 'ExportDefaultDeclaration',
             declaration: {
               type: 'Identifier',
-              name: 'JSNXContent',
+              name,
             },
             exportKind: 'value',
           }

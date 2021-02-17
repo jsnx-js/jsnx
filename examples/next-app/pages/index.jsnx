@@ -1,9 +1,11 @@
 {
+  "name": "HomePage",
   "components": [
     {
       "name": "Header",
-      "exception": {
-        "source": "../components/Header"
+      "custom": {
+        "source": "../components/Header",
+        "name": "HeaderComponent"
       }
     }
   ]
