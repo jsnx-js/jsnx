@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { transformAsync } from '@babel/core';
 
-import jsnx, { sync } from '..';
+import jsnx, { sync } from '../src';
 
 async function run(value, options = {}) {
   const doc = await jsnx(value, { ...options, skipExport: true });

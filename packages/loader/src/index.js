@@ -9,7 +9,7 @@ async function getConfig() {
   let path = `${process.cwd()}/${CONFIG_FILE_NAME}`;
 
   if (!existsSync(path)) {
-    path = `${__dirname}/${CONFIG_FILE_NAME}`;
+    path = `${__dirname}/../${CONFIG_FILE_NAME}`;
   }
 
   return import(path);

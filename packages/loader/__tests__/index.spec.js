@@ -24,7 +24,7 @@ const transform = (fixture, options) => {
                 ],
               },
             },
-            { loader: path.resolve(__dirname, '..'), options },
+            { loader: path.resolve(__dirname, '..', 'src'), options },
           ],
         },
       ],

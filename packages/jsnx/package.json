@@ -4,7 +4,7 @@
   "main": "build/index.js",
   "license": "MIT",
   "scripts": {
-    "build": "NODE_ENV=production BABEL_ENV=esm babel ./ --out-dir ./build --ignore **/__tests__/**,**/__fixtures__/**,**/__node_modules__/**"
+    "build": "NODE_ENV=production BABEL_ENV=esm babel ./src --out-dir ./build"
   },
   "dependencies": {
     "astring": "^1.6.0",

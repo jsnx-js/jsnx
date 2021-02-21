@@ -5,6 +5,6 @@
   "license": "MIT",
   "dependencies": {
     "@babel/cli": "^7.12.16",
-    "@jsnx-js/loader": "^0.0.2"
+    "@jsnx-js/loader": "*"
   }
 }
