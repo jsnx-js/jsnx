@@ -1,6 +1,6 @@
 {
   "name": "@jsnx-js/loader",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "main": "build/index.js",
   "license": "MIT",
   "scripts": {
