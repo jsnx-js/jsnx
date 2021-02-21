@@ -9,7 +9,7 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint ./packages",
-    "build": "lerna exec --ignore @jsnx-js/nextjs --parallel --no-bail -- npm run build",
+    "build": "lerna run --ignore @jsnx-js/nextjs --parallel --no-bail build",
     "clean": "lerna exec --parallel -- rimraf build .next node_modules",
     "postinstall": "lerna bootstrap",
     "dev:next-app": "cd examples/next-app && yarn dev",
